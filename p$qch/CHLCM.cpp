@@ -89,8 +89,6 @@ namespace CHLCM {
 				float flCurrentTime = SSDK::I::GlobalVars()->curtime;
 				CBaseCombatWeapon *activeWeapon = pLocalPlayer->GetActiveWeapon();
 
-				bool new_can_fire = (activeWeapon->NextPrimaryAttack() <= (*(int*)pLocalPlayer->GetTickBase() * SSDK::I::GlobalVars()->interval_per_tick));
-
 				if (OptionsManager.bAutoPistol) // Badly Coded Auto Pistol will make new later.
 				{
 					if (pLocalPlayer->IsAlive() && pCmd->buttons & IN_ATTACK && activeWeapon->isPistol())
@@ -163,7 +161,7 @@ namespace CHLCM {
 									//DEBUG
 									//SSDK::I::Engine()->SetViewAngles(pCmd->viewangles);
 									if (activeWeapon && activeWeapon->isValidWeapon()) {
-										if (/*activeWeapon->NextPrimaryAttack() <= flCurrentTime*/new_can_fire) {
+										if (activeWeapon->NextPrimaryAttack() <= flCurrentTime) {
 											if (!pLocalPlayer->isScoped() && activeWeapon->isWeaponScope()) {
 												if (OptionsManager.bAutoScope)
 													pCmd->buttons |= IN_ATTACK2;
@@ -189,7 +187,7 @@ namespace CHLCM {
 
 				//Calculate shot fired
 				if (activeWeapon) {
-					if (!(pCmd->buttons & IN_ATTACK) && /*activeWeapon->NextPrimaryAttack() <= flCurrentTime*/new_can_fire) {
+					if (!(pCmd->buttons & IN_ATTACK) && activeWeapon->NextPrimaryAttack() <= flCurrentTime) {
 						Globals::ShotsFired = 0;
 						Globals::FiredThatTick = false;
 					}
